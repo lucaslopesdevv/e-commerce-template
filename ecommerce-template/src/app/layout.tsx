@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'RentShop - Aluguel de Produtos',
+  title: 'ShopEasy - E-commerce Completo',
   description:
-    'Plataforma brasileira de aluguel de produtos com segurança e praticidade',
+    'Plataforma completa de e-commerce para lojas online no Brasil. Venda seus produtos com segurança e praticidade.',
 }
 
 export default function RootLayout({

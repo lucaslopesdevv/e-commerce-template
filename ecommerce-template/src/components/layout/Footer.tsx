@@ -49,12 +49,12 @@ export default function Footer({ className }: FooterProps) {
       ],
     },
     {
-      title: 'Para Locadores',
+      title: 'Para Vendedores',
       links: [
-        { name: 'Anuncie seu Produto', href: '/list-product' },
-        { name: 'Guia do Locador', href: '/landlord-guide' },
+        { name: 'Criar Loja', href: '/create-store' },
+        { name: 'Guia do Vendedor', href: '/seller-guide' },
         { name: 'Taxas e Comissões', href: '/fees' },
-        { name: 'Proteção ao Locador', href: '/protection' },
+        { name: 'Suporte para Lojas', href: '/store-support' },
       ],
     },
   ]
@@ -75,11 +75,11 @@ export default function Footer({ className }: FooterProps) {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <Link href="/" className="text-2xl font-bold text-white">
-              RentEasy
+              ShopEasy
             </Link>
             <p className="mt-4 text-sm text-gray-400">
-              A maior plataforma de aluguel online do Brasil. Alugue
-              equipamentos, veículos e muito mais com segurança e praticidade.
+              A plataforma completa de e-commerce do Brasil. Crie sua loja
+              online e venda seus produtos com segurança e praticidade.
             </p>
 
             {/* Contact Info */}
@@ -90,7 +90,7 @@ export default function Footer({ className }: FooterProps) {
               </div>
               <div className="flex items-center space-x-2 text-sm">
                 <Mail className="h-4 w-4" />
-                <span>contato@renteasy.com.br</span>
+                <span>contato@shopeasy.com.br</span>
               </div>
               <div className="flex items-center space-x-2 text-sm">
                 <MapPin className="h-4 w-4" />
@@ -193,10 +193,10 @@ export default function Footer({ className }: FooterProps) {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="text-sm text-gray-400">
               <p>
-                &copy; {currentYear} RentEasy. Todos os direitos reservados.
+                &copy; {currentYear} ShopEasy. Todos os direitos reservados.
               </p>
               <p className="mt-1">
-                CNPJ: 00.000.000/0001-00 | RentEasy Intermediação Ltda.
+                CNPJ: 00.000.000/0001-00 | ShopEasy E-commerce Ltda.
               </p>
             </div>
 

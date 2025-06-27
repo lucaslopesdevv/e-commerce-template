@@ -10,6 +10,6 @@ export default function RegisterPage() {
 }
 
 export const metadata = {
-  title: 'Criar Conta - RentShop',
-  description: 'Crie sua conta RentShop para alugar ou disponibilizar produtos',
+  title: 'Criar Conta - ShopEasy',
+  description: 'Crie sua conta ShopEasy para começar a vender produtos online',
 }

@@ -10,6 +10,7 @@ export default function LoginPage() {
 }
 
 export const metadata = {
-  title: 'Login - RentShop',
-  description: 'Entre na sua conta RentShop para acessar produtos de aluguel',
+  title: 'Login - ShopEasy',
+  description:
+    'Entre na sua conta ShopEasy para acessar sua loja e gerenciar produtos',
 }

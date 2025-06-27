@@ -76,7 +76,7 @@ export const auth = {
 export enum UserRole {
   ADMIN = 'admin',
   CUSTOMER = 'customer',
-  VENDOR = 'vendor',
+  SELLER = 'seller',
 }
 
 export const checkUserRole = (
@@ -84,14 +84,14 @@ export const checkUserRole = (
   requiredRole: UserRole
 ): boolean => {
   if (!user) return false
-  const userRole = user.user_metadata?.role || UserRole.CUSTOMER
-  return userRole === requiredRole || userRole === UserRole.ADMIN
+  const userRole = user.user_metadata?.role as UserRole
+  return userRole === requiredRole
 }
 
 export const isAdmin = (user: AuthUser | null): boolean => {
   return checkUserRole(user, UserRole.ADMIN)
 }
 
-export const isVendor = (user: AuthUser | null): boolean => {
-  return checkUserRole(user, UserRole.VENDOR) || isAdmin(user)
+export const isSeller = (user: AuthUser | null): boolean => {
+  return checkUserRole(user, UserRole.SELLER) || isAdmin(user)
 }

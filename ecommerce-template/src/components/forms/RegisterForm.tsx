@@ -48,7 +48,7 @@ const registerSchema = z
         /^\(\d{2}\)\s\d{4,5}-\d{4}$/,
         'Digite um telefone válido (ex: (11) 99999-9999)'
       ),
-    role: z.enum(['customer', 'vendor'] as const, {
+    role: z.enum(['customer', 'seller'] as const, {
       required_error: 'Selecione um tipo de conta',
     }),
     acceptTerms: z
@@ -229,7 +229,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
           <Label htmlFor="role">Tipo de Conta</Label>
           <Select
             onValueChange={value =>
-              setValue('role', value as 'customer' | 'vendor')
+              setValue('role', value as 'customer' | 'seller')
             }
           >
             <SelectTrigger className={errors.role ? 'border-red-500' : ''}>
@@ -237,10 +237,10 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="customer">
-                Cliente - Quero alugar produtos
+                Cliente - Quero comprar produtos
               </SelectItem>
-              <SelectItem value="vendor">
-                Fornecedor - Quero disponibilizar produtos
+              <SelectItem value="seller">
+                Vendedor - Quero criar uma loja e vender produtos
               </SelectItem>
             </SelectContent>
           </Select>

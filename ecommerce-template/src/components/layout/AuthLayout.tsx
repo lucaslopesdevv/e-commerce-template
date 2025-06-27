@@ -23,9 +23,9 @@ export function AuthLayout({
         <div className="flex justify-center">
           <Link href="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">R</span>
+              <span className="text-white font-bold text-lg">S</span>
             </div>
-            <span className="text-xl font-bold text-gray-900">RentShop</span>
+            <span className="text-xl font-bold text-gray-900">ShopEasy</span>
           </Link>
         </div>
 
@@ -59,7 +59,7 @@ export function AuthLayout({
 
       <div className="mt-8 text-center">
         <p className="text-xs text-gray-500">
-          © 2024 RentShop. Todos os direitos reservados.
+          © 2024 ShopEasy. Todos os direitos reservados.
         </p>
         <div className="mt-2 space-x-4">
           <Link

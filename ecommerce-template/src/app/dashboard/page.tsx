@@ -16,7 +16,7 @@ function DashboardPage() {
 
   const dashboardStats = [
     {
-      title: 'Reservas Ativas',
+      title: 'Pedidos Ativos',
       value: '3',
       icon: Calendar,
       color: 'text-blue-600',
@@ -38,7 +38,7 @@ function DashboardPage() {
     },
   ]
 
-  const vendorStats = [
+  const sellerStats = [
     {
       title: 'Produtos Cadastrados',
       value: '8',
@@ -47,7 +47,7 @@ function DashboardPage() {
       bgColor: 'bg-blue-100',
     },
     {
-      title: 'Reservas Recebidas',
+      title: 'Pedidos Recebidos',
       value: '15',
       icon: Calendar,
       color: 'text-green-600',
@@ -62,7 +62,7 @@ function DashboardPage() {
     },
   ]
 
-  const stats = userRole === 'vendor' ? vendorStats : dashboardStats
+  const stats = userRole === 'seller' ? sellerStats : dashboardStats
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -83,8 +83,8 @@ function DashboardPage() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <Badge variant={userRole === 'vendor' ? 'default' : 'secondary'}>
-                {userRole === 'vendor' ? 'Fornecedor' : 'Cliente'}
+              <Badge variant={userRole === 'seller' ? 'default' : 'secondary'}>
+                {userRole === 'seller' ? 'Vendedor' : 'Cliente'}
               </Badge>
             </div>
           </div>
@@ -128,10 +128,10 @@ function DashboardPage() {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-900">
-                    Nova reserva confirmada
+                    Novo pedido confirmado
                   </p>
                   <p className="text-sm text-gray-600">
-                    Câmera Canon EOS - 2 dias
+                    Smartphone Samsung Galaxy - Qty: 1
                   </p>
                 </div>
                 <span className="text-xs text-gray-500">2h atrás</span>
@@ -146,7 +146,7 @@ function DashboardPage() {
                     Produto favoritado
                   </p>
                   <p className="text-sm text-gray-600">
-                    Bicicleta Mountain Bike
+                    Notebook Dell Inspiron
                   </p>
                 </div>
                 <span className="text-xs text-gray-500">1 dia atrás</span>
@@ -173,7 +173,7 @@ function DashboardPage() {
               Ações Rápidas
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              {userRole === 'vendor' ? (
+              {userRole === 'seller' ? (
                 <>
                   <Button className="h-16 flex flex-col items-center justify-center space-y-1">
                     <Package className="h-5 w-5" />
@@ -184,7 +184,7 @@ function DashboardPage() {
                     className="h-16 flex flex-col items-center justify-center space-y-1"
                   >
                     <Calendar className="h-5 w-5" />
-                    <span className="text-xs">Ver Reservas</span>
+                    <span className="text-xs">Ver Pedidos</span>
                   </Button>
                   <Button
                     variant="outline"
@@ -198,7 +198,7 @@ function DashboardPage() {
                     className="h-16 flex flex-col items-center justify-center space-y-1"
                   >
                     <User className="h-5 w-5" />
-                    <span className="text-xs">Perfil</span>
+                    <span className="text-xs">Loja</span>
                   </Button>
                 </>
               ) : (
@@ -212,7 +212,7 @@ function DashboardPage() {
                     className="h-16 flex flex-col items-center justify-center space-y-1"
                   >
                     <Calendar className="h-5 w-5" />
-                    <span className="text-xs">Minhas Reservas</span>
+                    <span className="text-xs">Meus Pedidos</span>
                   </Button>
                   <Button
                     variant="outline"
