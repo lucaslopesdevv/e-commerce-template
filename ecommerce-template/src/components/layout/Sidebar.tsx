@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import {
   Home,
   Package,
@@ -18,16 +18,16 @@ import {
   ChevronRight,
   Bell,
   Search,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+} from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface SidebarProps {
-  className?: string;
+  className?: string
 }
 
 export default function Sidebar({ className }: SidebarProps) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const pathname = usePathname();
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const pathname = usePathname()
 
   const navigationItems = [
     {
@@ -84,7 +84,7 @@ export default function Sidebar({ className }: SidebarProps) {
       href: '/dashboard/documents',
       badge: null,
     },
-  ];
+  ]
 
   const bottomItems = [
     {
@@ -93,14 +93,14 @@ export default function Sidebar({ className }: SidebarProps) {
       href: '/dashboard/settings',
       badge: null,
     },
-  ];
+  ]
 
   const isActive = (href: string) => {
     if (href === '/dashboard') {
-      return pathname === href;
+      return pathname === href
     }
-    return pathname.startsWith(href);
-  };
+    return pathname.startsWith(href)
+  }
 
   return (
     <aside
@@ -148,8 +148,8 @@ export default function Sidebar({ className }: SidebarProps) {
       {/* Navigation */}
       <nav className="flex-1 p-4 space-y-1">
         {navigationItems.map(item => {
-          const Icon = item.icon;
-          const active = isActive(item.href);
+          const Icon = item.icon
+          const active = isActive(item.href)
 
           return (
             <Link
@@ -174,15 +174,15 @@ export default function Sidebar({ className }: SidebarProps) {
                 </>
               )}
             </Link>
-          );
+          )
         })}
       </nav>
 
       {/* Bottom Navigation */}
       <div className="p-4 border-t border-gray-200">
         {bottomItems.map(item => {
-          const Icon = item.icon;
-          const active = isActive(item.href);
+          const Icon = item.icon
+          const active = isActive(item.href)
 
           return (
             <Link
@@ -207,7 +207,7 @@ export default function Sidebar({ className }: SidebarProps) {
                 </>
               )}
             </Link>
-          );
+          )
         })}
 
         {/* Notifications */}
@@ -228,5 +228,5 @@ export default function Sidebar({ className }: SidebarProps) {
         )}
       </div>
     </aside>
-  );
+  )
 }

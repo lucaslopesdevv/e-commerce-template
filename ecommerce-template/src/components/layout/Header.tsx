@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { useState } from 'react'
+import Link from 'next/link'
 import {
   Menu,
   X,
@@ -11,31 +11,31 @@ import {
   Heart,
   LogOut,
   Settings,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useAuth } from '@/lib/AuthProvider';
+} from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { useAuth } from '@/lib/AuthProvider'
 
 interface HeaderProps {
-  className?: string;
+  className?: string
 }
 
 export default function Header({ className }: HeaderProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
-  const { user, signOut } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+  const [cartCount, setCartCount] = useState(0)
+  const { user, signOut } = useAuth()
 
   const handleSignOut = async () => {
-    await signOut();
-    setIsUserMenuOpen(false);
-  };
+    await signOut()
+    setIsUserMenuOpen(false)
+  }
 
   const navigation = [
     { name: 'Início', href: '/' },
     { name: 'Categorias', href: '/categories' },
     { name: 'Como Funciona', href: '/how-it-works' },
     { name: 'Contato', href: '/contact' },
-  ];
+  ]
 
   return (
     <header className={cn('bg-white shadow-sm border-b', className)}>
@@ -235,8 +235,8 @@ export default function Header({ className }: HeaderProps) {
 
                     <button
                       onClick={() => {
-                        handleSignOut();
-                        setIsMenuOpen(false);
+                        handleSignOut()
+                        setIsMenuOpen(false)
                       }}
                       className="flex items-center w-full px-2 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded transition-colors"
                     >
@@ -268,5 +268,5 @@ export default function Header({ className }: HeaderProps) {
         )}
       </div>
     </header>
-  );
+  )
 }

@@ -1,8 +1,8 @@
-import { supabase } from './database';
-import type { User, Session } from '@supabase/supabase-js';
+import { supabase } from './database'
+import type { User, Session } from '@supabase/supabase-js'
 
-export type AuthUser = User;
-export type AuthSession = Session;
+export type AuthUser = User
+export type AuthSession = Session
 
 export const auth = {
   // Sign up with email and password
@@ -17,8 +17,8 @@ export const auth = {
       options: {
         data: metadata,
       },
-    });
-    return { data, error };
+    })
+    return { data, error }
   },
 
   // Sign in with email and password
@@ -26,51 +26,51 @@ export const auth = {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
-    });
-    return { data, error };
+    })
+    return { data, error }
   },
 
   // Sign out
   signOut: async () => {
-    const { error } = await supabase.auth.signOut();
-    return { error };
+    const { error } = await supabase.auth.signOut()
+    return { error }
   },
 
   // Get current session
   getSession: async () => {
-    const { data, error } = await supabase.auth.getSession();
-    return { data, error };
+    const { data, error } = await supabase.auth.getSession()
+    return { data, error }
   },
 
   // Get current user
   getUser: async () => {
-    const { data, error } = await supabase.auth.getUser();
-    return { data, error };
+    const { data, error } = await supabase.auth.getUser()
+    return { data, error }
   },
 
   // Reset password
   resetPassword: async (email: string) => {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/auth/reset-password`,
-    });
-    return { data, error };
+    })
+    return { data, error }
   },
 
   // Update password
   updatePassword: async (newPassword: string) => {
     const { data, error } = await supabase.auth.updateUser({
       password: newPassword,
-    });
-    return { data, error };
+    })
+    return { data, error }
   },
 
   // Listen to auth state changes
   onAuthStateChange: (
     callback: (event: string, session: Session | null) => void
   ) => {
-    return supabase.auth.onAuthStateChange(callback);
+    return supabase.auth.onAuthStateChange(callback)
   },
-};
+}
 
 // User roles and permissions
 export enum UserRole {
@@ -83,15 +83,15 @@ export const checkUserRole = (
   user: AuthUser | null,
   requiredRole: UserRole
 ): boolean => {
-  if (!user) return false;
-  const userRole = user.user_metadata?.role || UserRole.CUSTOMER;
-  return userRole === requiredRole || userRole === UserRole.ADMIN;
-};
+  if (!user) return false
+  const userRole = user.user_metadata?.role || UserRole.CUSTOMER
+  return userRole === requiredRole || userRole === UserRole.ADMIN
+}
 
 export const isAdmin = (user: AuthUser | null): boolean => {
-  return checkUserRole(user, UserRole.ADMIN);
-};
+  return checkUserRole(user, UserRole.ADMIN)
+}
 
 export const isVendor = (user: AuthUser | null): boolean => {
-  return checkUserRole(user, UserRole.VENDOR) || isAdmin(user);
-};
+  return checkUserRole(user, UserRole.VENDOR) || isAdmin(user)
+}

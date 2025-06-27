@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
+import Link from 'next/link'
 import {
   Facebook,
   Instagram,
@@ -10,15 +10,15 @@ import {
   MapPin,
   CreditCard,
   Smartphone,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+} from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface FooterProps {
-  className?: string;
+  className?: string
 }
 
 export default function Footer({ className }: FooterProps) {
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear()
 
   const footerSections = [
     {
@@ -57,7 +57,7 @@ export default function Footer({ className }: FooterProps) {
         { name: 'Proteção ao Locador', href: '/protection' },
       ],
     },
-  ];
+  ]
 
   const paymentMethods = [
     { name: 'PIX', icon: '🔥' },
@@ -65,7 +65,7 @@ export default function Footer({ className }: FooterProps) {
     { name: 'Mastercard', icon: '💳' },
     { name: 'Mercado Pago', icon: '💙' },
     { name: 'PagSeguro', icon: '🟡' },
-  ];
+  ]
 
   return (
     <footer className={cn('bg-gray-900 text-gray-300', className)}>
@@ -207,5 +207,5 @@ export default function Footer({ className }: FooterProps) {
         </div>
       </div>
     </footer>
-  );
+  )
 }

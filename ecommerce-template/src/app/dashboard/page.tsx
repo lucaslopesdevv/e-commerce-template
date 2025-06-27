@@ -1,18 +1,18 @@
-'use client';
+'use client'
 
-import { useAuth, withAuth } from '@/lib/AuthProvider';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { User, Package, Calendar, CreditCard } from 'lucide-react';
+import { useAuth, withAuth } from '@/lib/AuthProvider'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { User, Package, Calendar, CreditCard } from 'lucide-react'
 
 function DashboardPage() {
-  const { user } = useAuth();
+  const { user } = useAuth()
 
-  const userRole = user?.user_metadata?.role || 'customer';
-  const userName = user?.user_metadata?.fullName || user?.email?.split('@')[0];
+  const userRole = user?.user_metadata?.role || 'customer'
+  const userName = user?.user_metadata?.fullName || user?.email?.split('@')[0]
 
   const dashboardStats = [
     {
@@ -36,7 +36,7 @@ function DashboardPage() {
       color: 'text-purple-600',
       bgColor: 'bg-purple-100',
     },
-  ];
+  ]
 
   const vendorStats = [
     {
@@ -60,9 +60,9 @@ function DashboardPage() {
       color: 'text-purple-600',
       bgColor: 'bg-purple-100',
     },
-  ];
+  ]
 
-  const stats = userRole === 'vendor' ? vendorStats : dashboardStats;
+  const stats = userRole === 'vendor' ? vendorStats : dashboardStats
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -93,7 +93,7 @@ function DashboardPage() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {stats.map((stat, index) => {
-            const IconComponent = stat.icon;
+            const IconComponent = stat.icon
             return (
               <Card key={index} className="p-6">
                 <div className="flex items-center">
@@ -110,7 +110,7 @@ function DashboardPage() {
                   </div>
                 </div>
               </Card>
-            );
+            )
           })}
         </div>
 
@@ -237,8 +237,8 @@ function DashboardPage() {
 
       <Footer />
     </div>
-  );
+  )
 }
 
 // Export the component wrapped with authentication protection
-export default withAuth(DashboardPage);
+export default withAuth(DashboardPage)

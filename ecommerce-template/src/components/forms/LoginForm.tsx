@@ -1,15 +1,15 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import Link from 'next/link';
-import { Eye, EyeOff } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useAuth } from '@/lib/AuthProvider';
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import Link from 'next/link'
+import { Eye, EyeOff } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { useAuth } from '@/lib/AuthProvider'
 
 const loginSchema = z.object({
   email: z
@@ -20,18 +20,18 @@ const loginSchema = z.object({
     .string()
     .min(1, 'Senha é obrigatória')
     .min(6, 'Senha deve ter pelo menos 6 caracteres'),
-});
+})
 
-type LoginFormData = z.infer<typeof loginSchema>;
+type LoginFormData = z.infer<typeof loginSchema>
 
 interface LoginFormProps {
-  onSuccess?: () => void;
+  onSuccess?: () => void
 }
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
-  const { signIn } = useAuth();
-  const [showPassword, setShowPassword] = useState(false);
-  const [authError, setAuthError] = useState<string | null>(null);
+  const { signIn } = useAuth()
+  const [showPassword, setShowPassword] = useState(false)
+  const [authError, setAuthError] = useState<string | null>(null)
 
   const {
     register,
@@ -39,38 +39,38 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-  });
+  })
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      setAuthError(null);
-      const { error } = await signIn(data.email, data.password);
+      setAuthError(null)
+      const { error } = await signIn(data.email, data.password)
 
       if (error) {
         // Handle specific Supabase auth errors
         if (error.message.includes('Invalid login credentials')) {
-          setAuthError('Email ou senha incorretos');
+          setAuthError('Email ou senha incorretos')
         } else if (error.message.includes('Email not confirmed')) {
           setAuthError(
             'Email ainda não confirmado. Verifique sua caixa de entrada.'
-          );
+          )
         } else if (error.message.includes('Too many requests')) {
           setAuthError(
             'Muitas tentativas de login. Tente novamente em alguns minutos.'
-          );
+          )
         } else {
-          setAuthError('Erro ao fazer login. Tente novamente.');
+          setAuthError('Erro ao fazer login. Tente novamente.')
         }
-        return;
+        return
       }
 
       // Success - redirect will be handled by AuthProvider
-      onSuccess?.();
+      onSuccess?.()
     } catch (error) {
-      console.error('Login error:', error);
-      setAuthError('Erro inesperado. Tente novamente.');
+      console.error('Login error:', error)
+      setAuthError('Erro inesperado. Tente novamente.')
     }
-  };
+  }
 
   return (
     <div className="w-full max-w-md space-y-6">
@@ -166,5 +166,5 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         </p>
       </div>
     </div>
-  );
+  )
 }

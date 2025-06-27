@@ -1,14 +1,14 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link'
+import Image from 'next/image'
+import { ArrowLeft } from 'lucide-react'
 
 interface AuthLayoutProps {
-  children: React.ReactNode;
-  title?: string;
-  subtitle?: string;
-  showBackButton?: boolean;
+  children: React.ReactNode
+  title?: string
+  subtitle?: string
+  showBackButton?: boolean
 }
 
 export function AuthLayout({
@@ -83,5 +83,5 @@ export function AuthLayout({
         </div>
       </div>
     </div>
-  );
+  )
 }

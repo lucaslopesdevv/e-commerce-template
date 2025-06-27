@@ -1,9 +1,9 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl =
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
 const supabaseAnonKey =
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
 
 // Only warn in browser, don't throw during build
 if (
@@ -13,7 +13,7 @@ if (
 ) {
   console.warn(
     'Missing Supabase environment variables. Authentication features will not work.'
-  );
+  )
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
@@ -22,7 +22,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     persistSession: true,
     detectSessionInUrl: true,
   },
-});
+})
 
 // Admin client for backend operations
 export const supabaseAdmin = createClient(
@@ -34,14 +34,14 @@ export const supabaseAdmin = createClient(
       persistSession: false,
     },
   }
-);
+)
 
 // Database types will be generated from Supabase CLI
 export type Database = {
   public: {
-    Tables: Record<string, unknown>;
-    Views: Record<string, unknown>;
-    Functions: Record<string, unknown>;
-    Enums: Record<string, unknown>;
-  };
-};
+    Tables: Record<string, unknown>
+    Views: Record<string, unknown>
+    Functions: Record<string, unknown>
+    Enums: Record<string, unknown>
+  }
+}

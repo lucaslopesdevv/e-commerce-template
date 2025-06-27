@@ -4,7 +4,7 @@ export const APP_CONFIG = {
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
   description: 'A maior plataforma de aluguel online do Brasil',
   version: '1.0.0',
-};
+}
 
 // Brazilian States
 export const BRAZILIAN_STATES = [
@@ -35,7 +35,7 @@ export const BRAZILIAN_STATES = [
   { code: 'SP', name: 'São Paulo' },
   { code: 'SE', name: 'Sergipe' },
   { code: 'TO', name: 'Tocantins' },
-];
+]
 
 // Payment Methods
 export const PAYMENT_METHODS = {
@@ -44,7 +44,7 @@ export const PAYMENT_METHODS = {
   DEBIT_CARD: 'debit_card',
   MERCADO_PAGO: 'mercado_pago',
   PAGSEGURO: 'pagseguro',
-} as const;
+} as const
 
 export const PAYMENT_METHOD_LABELS = {
   [PAYMENT_METHODS.PIX]: 'PIX',
@@ -52,20 +52,20 @@ export const PAYMENT_METHOD_LABELS = {
   [PAYMENT_METHODS.DEBIT_CARD]: 'Cartão de Débito',
   [PAYMENT_METHODS.MERCADO_PAGO]: 'Mercado Pago',
   [PAYMENT_METHODS.PAGSEGURO]: 'PagSeguro',
-};
+}
 
 // User Roles
 export const USER_ROLES = {
   ADMIN: 'admin',
   CUSTOMER: 'customer',
   VENDOR: 'vendor',
-} as const;
+} as const
 
 export const USER_ROLE_LABELS = {
   [USER_ROLES.ADMIN]: 'Administrador',
   [USER_ROLES.CUSTOMER]: 'Cliente',
   [USER_ROLES.VENDOR]: 'Locador',
-};
+}
 
 // Booking Status
 export const BOOKING_STATUS = {
@@ -74,7 +74,7 @@ export const BOOKING_STATUS = {
   ACTIVE: 'active',
   COMPLETED: 'completed',
   CANCELLED: 'cancelled',
-} as const;
+} as const
 
 export const BOOKING_STATUS_LABELS = {
   [BOOKING_STATUS.PENDING]: 'Pendente',
@@ -82,20 +82,20 @@ export const BOOKING_STATUS_LABELS = {
   [BOOKING_STATUS.ACTIVE]: 'Ativo',
   [BOOKING_STATUS.COMPLETED]: 'Concluído',
   [BOOKING_STATUS.CANCELLED]: 'Cancelado',
-};
+}
 
 // Payment Status
 export const PAYMENT_STATUS = {
   PENDING: 'pending',
   PAID: 'paid',
   REFUNDED: 'refunded',
-} as const;
+} as const
 
 export const PAYMENT_STATUS_LABELS = {
   [PAYMENT_STATUS.PENDING]: 'Pendente',
   [PAYMENT_STATUS.PAID]: 'Pago',
   [PAYMENT_STATUS.REFUNDED]: 'Reembolsado',
-};
+}
 
 // Notification Types
 export const NOTIFICATION_TYPES = {
@@ -104,7 +104,7 @@ export const NOTIFICATION_TYPES = {
   REMINDER: 'reminder',
   PROMOTION: 'promotion',
   SYSTEM: 'system',
-} as const;
+} as const
 
 // Product Categories (Sample)
 export const PRODUCT_CATEGORIES = [
@@ -138,7 +138,7 @@ export const PRODUCT_CATEGORIES = [
     icon: '📱',
     subcategories: ['Câmeras', 'Notebooks', 'Equipamentos de Som'],
   },
-];
+]
 
 // Date and Time
 export const DATE_FORMATS = {
@@ -146,7 +146,7 @@ export const DATE_FORMATS = {
   LONG: 'dd/MM/yyyy HH:mm',
   DISPLAY: 'dd/MM/yyyy',
   ISO: 'yyyy-MM-dd',
-};
+}
 
 // Business Rules
 export const BUSINESS_RULES = {
@@ -156,7 +156,7 @@ export const BUSINESS_RULES = {
   MAX_DEPOSIT_PERCENTAGE: 1.0, // 100%
   BOOKING_CANCELLATION_HOURS: 24,
   REVIEW_DEADLINE_DAYS: 30,
-};
+}
 
 // Contact Information
 export const CONTACT_INFO = {
@@ -164,14 +164,14 @@ export const CONTACT_INFO = {
   email: 'contato@renteasy.com.br',
   whatsapp: `https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace('+', '')}`,
   address: 'São Paulo, SP - Brasil',
-};
+}
 
 // Social Media
 export const SOCIAL_MEDIA = {
   instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || '#',
   facebook: process.env.NEXT_PUBLIC_FACEBOOK_URL || '#',
   twitter: '#',
-};
+}
 
 // API Endpoints
 export const API_ENDPOINTS = {
@@ -200,4 +200,4 @@ export const API_ENDPOINTS = {
     WEBHOOK: '/api/payments/webhook',
     STATUS: (id: string) => `/api/payments/${id}/status`,
   },
-};
+}

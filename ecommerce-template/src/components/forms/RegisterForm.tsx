@@ -1,23 +1,23 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import Link from 'next/link';
-import { Eye, EyeOff } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import Link from 'next/link'
+import { Eye, EyeOff } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useAuth } from '@/lib/AuthProvider';
-import { USER_ROLES } from '@/constants';
+} from '@/components/ui/select'
+import { useAuth } from '@/lib/AuthProvider'
+import { USER_ROLES } from '@/constants'
 
 const registerSchema = z
   .object({
@@ -64,20 +64,20 @@ const registerSchema = z
   .refine(data => data.password === data.confirmPassword, {
     message: 'As senhas não coincidem',
     path: ['confirmPassword'],
-  });
+  })
 
-type RegisterFormData = z.infer<typeof registerSchema>;
+type RegisterFormData = z.infer<typeof registerSchema>
 
 interface RegisterFormProps {
-  onSuccess?: () => void;
+  onSuccess?: () => void
 }
 
 export function RegisterForm({ onSuccess }: RegisterFormProps) {
-  const { signUp } = useAuth();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [authError, setAuthError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const { signUp } = useAuth()
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [authError, setAuthError] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
 
   const {
     register,
@@ -87,14 +87,14 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
-  });
+  })
 
-  const selectedRole = watch('role');
+  const selectedRole = watch('role')
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      setAuthError(null);
-      setSuccessMessage(null);
+      setAuthError(null)
+      setSuccessMessage(null)
 
       const { error } = await signUp(data.email, data.password, {
         firstName: data.firstName,
@@ -102,44 +102,44 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         phone: data.phone,
         role: data.role,
         fullName: `${data.firstName} ${data.lastName}`,
-      });
+      })
 
       if (error) {
         // Handle specific Supabase auth errors
         if (error.message.includes('User already registered')) {
-          setAuthError('Este email já está cadastrado. Tente fazer login.');
+          setAuthError('Este email já está cadastrado. Tente fazer login.')
         } else if (error.message.includes('Password should be at least')) {
-          setAuthError('A senha deve ter pelo menos 6 caracteres.');
+          setAuthError('A senha deve ter pelo menos 6 caracteres.')
         } else if (error.message.includes('Invalid email')) {
-          setAuthError('Digite um email válido.');
+          setAuthError('Digite um email válido.')
         } else {
-          setAuthError('Erro ao criar conta. Tente novamente.');
+          setAuthError('Erro ao criar conta. Tente novamente.')
         }
-        return;
+        return
       }
 
       // Success
       setSuccessMessage(
         'Conta criada com sucesso! Verifique seu email para confirmar sua conta.'
-      );
-      onSuccess?.();
+      )
+      onSuccess?.()
     } catch (error) {
-      console.error('Registration error:', error);
-      setAuthError('Erro inesperado. Tente novamente.');
+      console.error('Registration error:', error)
+      setAuthError('Erro inesperado. Tente novamente.')
     }
-  };
+  }
 
   const formatPhone = (value: string) => {
     // Remove all non-digits
-    const digits = value.replace(/\D/g, '');
+    const digits = value.replace(/\D/g, '')
 
     // Format as (XX) XXXXX-XXXX or (XX) XXXX-XXXX
     if (digits.length <= 10) {
-      return digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+      return digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
     } else {
-      return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
     }
-  };
+  }
 
   return (
     <div className="w-full max-w-md space-y-6">
@@ -215,8 +215,8 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
             placeholder="(11) 99999-9999"
             {...register('phone')}
             onChange={e => {
-              const formatted = formatPhone(e.target.value);
-              setValue('phone', formatted);
+              const formatted = formatPhone(e.target.value)
+              setValue('phone', formatted)
             }}
             className={errors.phone ? 'border-red-500' : ''}
           />
@@ -372,5 +372,5 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         </p>
       </div>
     </div>
-  );
+  )
 }
