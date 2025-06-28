@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
+import { useTheme } from '@/lib/ThemeProvider'
 import {
   Settings,
   User,
@@ -29,6 +30,7 @@ import {
 
 const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState('account')
+  const { theme, setTheme } = useTheme()
   const [settings, setSettings] = useState({
     // Account Settings
     language: 'pt-BR',
@@ -791,27 +793,30 @@ const SettingsPage = () => {
               preview: 'bg-gray-900 border-gray-700',
             },
             {
-              value: 'auto',
+              value: 'system',
               label: 'Automático',
               preview:
                 'bg-gradient-to-r from-white to-gray-900 border-gray-400',
             },
-          ].map(theme => (
+          ].map(themeOption => (
             <button
-              key={theme.value}
-              onClick={() => handleDirectSettingChange('theme', theme.value)}
+              key={themeOption.value}
+              onClick={() => setTheme(themeOption.value as any)}
               className={cn(
                 'p-4 border-2 rounded-lg transition-colors',
-                settings.theme === theme.value
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-300 hover:border-gray-400'
+                theme === themeOption.value
+                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                  : 'border-gray-300 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-500'
               )}
             >
               <div
-                className={cn('w-full h-20 rounded mb-2 border', theme.preview)}
+                className={cn(
+                  'w-full h-20 rounded mb-2 border',
+                  themeOption.preview
+                )}
               />
-              <p className="font-medium">{theme.label}</p>
-              {settings.theme === theme.value && (
+              <p className="font-medium">{themeOption.label}</p>
+              {theme === themeOption.value && (
                 <Check className="h-4 w-4 text-blue-500 mx-auto mt-2" />
               )}
             </button>

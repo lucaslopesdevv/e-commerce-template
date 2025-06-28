@@ -154,7 +154,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
 
     return (
       <div className="space-y-1">
-        <h3 className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+        <h3 className="px-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
           {title}
         </h3>
         {items.map(item => {
@@ -169,16 +169,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               className={cn(
                 'group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors',
                 isActiveLink(item.href)
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
               )}
             >
               <item.icon
                 className={cn(
                   'mr-3 h-5 w-5',
                   isActiveLink(item.href)
-                    ? 'text-blue-500'
-                    : 'text-gray-400 group-hover:text-gray-500'
+                    ? 'text-blue-500 dark:text-blue-400'
+                    : 'text-gray-400 dark:text-gray-500 group-hover:text-gray-500 dark:group-hover:text-gray-400'
                 )}
               />
               {item.name}
@@ -192,10 +192,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b">
+      <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">Dashboard</h2>
-          <p className="text-sm text-gray-600">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            Dashboard
+          </h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             {user?.user_metadata?.fullName || user?.email?.split('@')[0]}
           </p>
         </div>
@@ -235,7 +237,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t">
+      <div className="p-4 border-t dark:border-gray-700">
         <Button
           onClick={handleSignOut}
           variant="outline"
@@ -250,10 +252,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   )
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
       {/* Desktop Sidebar */}
       <div className="hidden lg:flex lg:flex-shrink-0">
-        <div className="flex flex-col w-64 bg-white shadow-sm border-r">
+        <div className="flex flex-col w-64 bg-white dark:bg-gray-800 shadow-sm border-r dark:border-gray-700">
           <SidebarContent />
         </div>
       </div>
@@ -265,7 +267,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             className="fixed inset-0 bg-gray-600 bg-opacity-75"
             onClick={() => setSidebarOpen(false)}
           />
-          <div className="relative flex flex-col max-w-xs w-full bg-white shadow-xl">
+          <div className="relative flex flex-col max-w-xs w-full bg-white dark:bg-gray-800 shadow-xl">
             <div className="absolute top-0 right-0 -mr-12 pt-2">
               <button
                 type="button"
@@ -283,20 +285,24 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Mobile Header */}
-        <div className="lg:hidden flex items-center justify-between p-4 bg-white shadow-sm border-b">
+        <div className="lg:hidden flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
           <button
             type="button"
-            className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+            className="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
             onClick={() => setSidebarOpen(true)}
           >
             <Menu className="h-6 w-6" />
           </button>
-          <h1 className="text-lg font-semibold">Dashboard</h1>
+          <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            Dashboard
+          </h1>
           <div className="w-10" /> {/* Spacer */}
         </div>
 
         {/* Page Content */}
-        <main className="flex-1 p-4 lg:p-8">{children}</main>
+        <main className="flex-1 p-4 lg:p-8 bg-gray-50 dark:bg-gray-900">
+          {children}
+        </main>
       </div>
     </div>
   )

@@ -70,8 +70,10 @@ export default function ProductFilters({ filters }: ProductFiltersProps) {
       {/* Filter Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <Filter className="h-5 w-5 text-gray-600" />
-          <h3 className="text-lg font-semibold text-gray-900">Filtros</h3>
+          <Filter className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            Filtros
+          </h3>
           {activeFiltersCount > 0 && (
             <Badge variant="secondary">{activeFiltersCount}</Badge>
           )}
@@ -102,8 +104,8 @@ export default function ProductFilters({ filters }: ProductFiltersProps) {
       <div className={`space-y-6 ${isCollapsed ? 'hidden lg:block' : ''}`}>
         {/* Active Filters */}
         {activeFiltersCount > 0 && (
-          <Card className="p-4">
-            <h4 className="text-sm font-medium text-gray-900 mb-3">
+          <Card className="p-4 dark:bg-gray-800">
+            <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
               Filtros Ativos
             </h4>
             <div className="flex flex-wrap gap-2">
@@ -182,8 +184,10 @@ export default function ProductFilters({ filters }: ProductFiltersProps) {
         )}
 
         {/* Categories */}
-        <Card className="p-4">
-          <h4 className="text-sm font-medium text-gray-900 mb-3">Categorias</h4>
+        <Card className="p-4 dark:bg-gray-800">
+          <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
+            Categorias
+          </h4>
           <div className="space-y-2">
             {categories.map(category => (
               <button
@@ -196,20 +200,22 @@ export default function ProductFilters({ filters }: ProductFiltersProps) {
                 }
                 className={`w-full text-left flex items-center justify-between p-2 rounded-md text-sm transition-colors ${
                   filters.category === category.id
-                    ? 'bg-blue-50 text-blue-700 font-medium'
-                    : 'hover:bg-gray-50 text-gray-700'
+                    ? 'bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium'
+                    : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
                 }`}
               >
                 <span>{category.name}</span>
-                <span className="text-gray-500">({category.count})</span>
+                <span className="text-gray-500 dark:text-gray-400">
+                  ({category.count})
+                </span>
               </button>
             ))}
           </div>
         </Card>
 
         {/* Price Range */}
-        <Card className="p-4">
-          <h4 className="text-sm font-medium text-gray-900 mb-3">
+        <Card className="p-4 dark:bg-gray-800">
+          <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
             Faixa de Preço
           </h4>
           <div className="space-y-4">
@@ -226,7 +232,7 @@ export default function ProductFilters({ filters }: ProductFiltersProps) {
                 }
                 className="w-20 text-sm"
               />
-              <span className="text-gray-500">-</span>
+              <span className="text-gray-500 dark:text-gray-400">-</span>
               <Input
                 type="number"
                 placeholder="Max"
@@ -242,7 +248,7 @@ export default function ProductFilters({ filters }: ProductFiltersProps) {
             </div>
 
             <div className="space-y-2">
-              <div className="flex justify-between text-sm text-gray-600">
+              <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                 <span>R$ 0</span>
                 <span>R$ 50.000</span>
               </div>
@@ -276,8 +282,8 @@ export default function ProductFilters({ filters }: ProductFiltersProps) {
         </Card>
 
         {/* Additional Filters */}
-        <Card className="p-4">
-          <h4 className="text-sm font-medium text-gray-900 mb-3">
+        <Card className="p-4 dark:bg-gray-800">
+          <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
             Disponibilidade
           </h4>
           <div className="space-y-3">
@@ -288,7 +294,9 @@ export default function ProductFilters({ filters }: ProductFiltersProps) {
                 onChange={e => updateFilter('in_stock', e.target.checked)}
                 className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               />
-              <span className="text-sm text-gray-700">Apenas em estoque</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300">
+                Apenas em estoque
+              </span>
             </label>
 
             <label className="flex items-center space-x-2 cursor-pointer">
@@ -298,7 +306,9 @@ export default function ProductFilters({ filters }: ProductFiltersProps) {
                 onChange={e => updateFilter('on_sale', e.target.checked)}
                 className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               />
-              <span className="text-sm text-gray-700">Em promoção</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300">
+                Em promoção
+              </span>
             </label>
           </div>
         </Card>

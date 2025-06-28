@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/lib/AuthProvider'
+import { ThemeProvider } from '@/lib/ThemeProvider'
 import { StagewiseToolbar } from '@stagewise/toolbar-next'
 import { ReactPlugin } from '@stagewise-plugins/react'
 
@@ -31,8 +32,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>{children}</AuthProvider>
-        <StagewiseToolbar config={{ plugins: [ReactPlugin] }} />
+        <ThemeProvider defaultTheme="system">
+          <AuthProvider>{children}</AuthProvider>
+          <StagewiseToolbar config={{ plugins: [ReactPlugin] }} />
+        </ThemeProvider>
       </body>
     </html>
   )

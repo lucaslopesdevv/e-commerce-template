@@ -57,8 +57,12 @@ export const StatsCard: React.FC<StatsCardProps> = ({
     <Card className="p-6 hover:shadow-md transition-shadow">
       <div className="flex items-center justify-between">
         <div className="flex-1">
-          <p className="text-sm font-medium text-gray-600">{title}</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{value}</p>
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+            {title}
+          </p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">
+            {value}
+          </p>
 
           {change && (
             <div className="flex items-center mt-2">
@@ -76,7 +80,7 @@ export const StatsCard: React.FC<StatsCardProps> = ({
                 {change.isPositive ? '+' : ''}
                 {change.value}%
               </span>
-              <span className="text-sm text-gray-500 ml-1">
+              <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">
                 vs {change.period}
               </span>
             </div>
@@ -155,7 +159,9 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
   return (
     <Card className={cn('p-6', className)}>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold">Atividade Recente</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          Atividade Recente
+        </h3>
         <Button variant="ghost" size="sm">
           <MoreHorizontal className="h-4 w-4" />
         </Button>
@@ -168,24 +174,26 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           return (
             <div key={activity.id} className="flex items-start space-x-3">
               <div className="flex-shrink-0">
-                <div className="p-2 bg-gray-100 rounded-lg">
-                  <ActivityIcon className="h-4 w-4 text-gray-600" />
+                <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                  <ActivityIcon className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                 </div>
               </div>
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                     {activity.title}
                   </p>
                   {getStatusIcon(activity.status)}
                 </div>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                   {activity.description}
                 </p>
                 <div className="flex items-center mt-2">
                   <Clock className="h-3 w-3 text-gray-400 mr-1" />
-                  <span className="text-xs text-gray-500">{activity.time}</span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                    {activity.time}
+                  </span>
                 </div>
               </div>
             </div>
@@ -193,7 +201,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
         })}
       </div>
 
-      <div className="mt-4 pt-4 border-t">
+      <div className="mt-4 pt-4 border-t dark:border-gray-700">
         <Button variant="ghost" size="sm" className="w-full">
           Ver todas as atividades
           <ExternalLink className="h-4 w-4 ml-2" />
@@ -232,7 +240,9 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
 
   return (
     <Card className={cn('p-6', className)}>
-      <h3 className="text-lg font-semibold mb-4">Ações Rápidas</h3>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+        Ações Rápidas
+      </h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {actions.map((action, index) => {
@@ -255,8 +265,10 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
                   </div>
 
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900">{action.title}</p>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="font-medium text-gray-900 dark:text-gray-100">
+                      {action.title}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                       {action.description}
                     </p>
                   </div>
@@ -308,7 +320,9 @@ export const ProgressWidget: React.FC<ProgressWidgetProps> = ({
 
   return (
     <Card className={cn('p-6', className)}>
-      <h3 className="text-lg font-semibold mb-4">{title}</h3>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+        {title}
+      </h3>
 
       <div className="space-y-4">
         {items.map((item, index) => {
@@ -317,15 +331,15 @@ export const ProgressWidget: React.FC<ProgressWidgetProps> = ({
           return (
             <div key={index}>
               <div className="flex items-center justify-between mb-1">
-                <span className="text-sm font-medium text-gray-900">
+                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
                   {item.label}
                 </span>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-gray-600 dark:text-gray-400">
                   {item.value}/{item.max} ({percentage}%)
                 </span>
               </div>
 
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                 <div
                   className={cn(
                     'h-2 rounded-full transition-all duration-300',
@@ -365,7 +379,9 @@ export const SimpleChart: React.FC<SimpleChartProps> = ({
 
   return (
     <Card className={cn('p-6', className)}>
-      <h3 className="text-lg font-semibold mb-4">{title}</h3>
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
+        {title}
+      </h3>
 
       <div className="space-y-3">
         {data.map((item, index) => {
@@ -373,18 +389,18 @@ export const SimpleChart: React.FC<SimpleChartProps> = ({
 
           return (
             <div key={index} className="flex items-center space-x-3">
-              <span className="text-sm text-gray-600 w-20 text-right">
+              <span className="text-sm text-gray-600 dark:text-gray-400 w-20 text-right">
                 {item.label}
               </span>
 
-              <div className="flex-1 bg-gray-200 rounded-full h-3">
+              <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-3">
                 <div
                   className="bg-blue-600 h-3 rounded-full transition-all duration-500"
                   style={{ width: `${percentage}%` }}
                 />
               </div>
 
-              <span className="text-sm font-medium text-gray-900 w-12">
+              <span className="text-sm font-medium text-gray-900 dark:text-gray-100 w-12">
                 {item.value}
               </span>
             </div>
@@ -436,7 +452,9 @@ export const NotificationPanel: React.FC<NotificationPanelProps> = ({
   return (
     <Card className={cn('p-6', className)}>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold">Notificações</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          Notificações
+        </h3>
         <Badge variant="secondary">
           {notifications.filter(n => !n.read).length}
         </Badge>
@@ -448,7 +466,9 @@ export const NotificationPanel: React.FC<NotificationPanelProps> = ({
             key={notification.id}
             className={cn(
               'p-3 rounded-lg border transition-colors',
-              notification.read ? 'bg-gray-50' : 'bg-white border-blue-200'
+              notification.read
+                ? 'bg-gray-50 dark:bg-gray-700'
+                : 'bg-white dark:bg-gray-800 border-blue-200 dark:border-blue-600'
             )}
           >
             <div className="flex items-start space-x-3">
@@ -460,15 +480,17 @@ export const NotificationPanel: React.FC<NotificationPanelProps> = ({
                 <p
                   className={cn(
                     'text-sm font-medium',
-                    notification.read ? 'text-gray-600' : 'text-gray-900'
+                    notification.read
+                      ? 'text-gray-600 dark:text-gray-400'
+                      : 'text-gray-900 dark:text-gray-100'
                   )}
                 >
                   {notification.title}
                 </p>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                   {notification.message}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                   {notification.time}
                 </p>
               </div>
@@ -481,7 +503,7 @@ export const NotificationPanel: React.FC<NotificationPanelProps> = ({
         ))}
       </div>
 
-      <div className="mt-4 pt-4 border-t">
+      <div className="mt-4 pt-4 border-t dark:border-gray-700">
         <Button variant="ghost" size="sm" className="w-full">
           Ver todas as notificações
         </Button>

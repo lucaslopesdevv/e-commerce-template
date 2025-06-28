@@ -23,7 +23,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     : 0
 
   return (
-    <div className="group bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 overflow-hidden">
+    <div className="group bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 overflow-hidden">
       {/* Image Container */}
       <div className="relative aspect-square overflow-hidden">
         <Link href={`/products/${product.id}`}>
@@ -75,7 +75,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="mb-2">
           <Link
             href={`/products/${product.id}`}
-            className="text-sm font-medium text-gray-900 hover:text-blue-600 line-clamp-2"
+            className="text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 line-clamp-2"
           >
             {product.title}
           </Link>
@@ -90,28 +90,30 @@ export default function ProductCard({ product }: ProductCardProps) {
                 className={`h-3 w-3 ${
                   i < 4 // Mock rating
                     ? 'text-yellow-400 fill-current'
-                    : 'text-gray-300'
+                    : 'text-gray-300 dark:text-gray-600'
                 }`}
               />
             ))}
           </div>
-          <span className="text-xs text-gray-600 ml-1">(24)</span>
+          <span className="text-xs text-gray-600 dark:text-gray-400 ml-1">
+            (24)
+          </span>
         </div>
 
         {/* Price */}
         <div className="space-y-1">
           <div className="flex items-center space-x-2">
-            <span className="text-lg font-bold text-gray-900">
+            <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
               R$ {product.price.toFixed(2).replace('.', ',')}
             </span>
             {isOnSale && (
-              <span className="text-sm text-gray-500 line-through">
+              <span className="text-sm text-gray-500 dark:text-gray-400 line-through">
                 R$ {product.compare_at_price!.toFixed(2).replace('.', ',')}
               </span>
             )}
           </div>
 
-          <div className="text-xs text-gray-600">
+          <div className="text-xs text-gray-600 dark:text-gray-400">
             ou 10x de R$ {(product.price / 10).toFixed(2).replace('.', ',')}
           </div>
         </div>
@@ -119,11 +121,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Stock Status */}
         <div className="mt-2">
           {product.stock_quantity > 0 ? (
-            <span className="text-xs text-green-600 font-medium">
+            <span className="text-xs text-green-600 dark:text-green-400 font-medium">
               {product.stock_quantity} em estoque
             </span>
           ) : (
-            <span className="text-xs text-red-600 font-medium">
+            <span className="text-xs text-red-600 dark:text-red-400 font-medium">
               Fora de estoque
             </span>
           )}

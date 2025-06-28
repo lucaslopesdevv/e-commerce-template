@@ -67,15 +67,17 @@ export default async function ProductsPage({
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         {/* Header Section */}
-        <div className="bg-white shadow-sm border-b">
+        <div className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex flex-col space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900">Produtos</h1>
-                  <p className="text-gray-600 mt-1">
+                  <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                    Produtos
+                  </h1>
+                  <p className="text-gray-600 dark:text-gray-400 mt-1">
                     Encontre os melhores produtos com qualidade garantida
                   </p>
                 </div>
@@ -118,8 +120,8 @@ export default async function ProductsPage({
             {/* Main Content */}
             <main className="flex-1">
               {/* Toolbar */}
-              <div className="flex items-center justify-between mb-6 bg-white p-4 rounded-lg shadow-sm">
-                <div className="text-sm text-gray-600">
+              <div className="flex items-center justify-between mb-6 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
+                <div className="text-sm text-gray-600 dark:text-gray-400">
                   Exibindo produtos {(currentPage - 1) * 20 + 1}-
                   {currentPage * 20}
                 </div>

@@ -41,12 +41,20 @@ export default function Header({ className }: HeaderProps) {
   ]
 
   return (
-    <header className={cn('bg-white shadow-sm border-b', className)}>
+    <header
+      className={cn(
+        'bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700',
+        className
+      )}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0 mr-8">
-            <Link href="/" className="text-2xl font-bold text-blue-600">
+            <Link
+              href="/"
+              className="text-2xl font-bold text-blue-600 dark:text-blue-400"
+            >
               ShopEasy
             </Link>
           </div>
@@ -57,7 +65,7 @@ export default function Header({ className }: HeaderProps) {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-gray-700 hover:text-blue-600 transition-colors duration-200"
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
               >
                 {item.name}
               </Link>
@@ -67,12 +75,12 @@ export default function Header({ className }: HeaderProps) {
           {/* Action Buttons */}
           <div className="flex items-center space-x-4">
             {/* Wishlist */}
-            <button className="relative p-2 text-gray-700 hover:text-blue-600 transition-colors">
+            <button className="relative p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               <Heart className="h-6 w-6" />
             </button>
 
             {/* Cart */}
-            <button className="relative p-2 text-gray-700 hover:text-blue-600 transition-colors">
+            <button className="relative p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               <ShoppingCart className="h-6 w-6" />
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -86,7 +94,7 @@ export default function Header({ className }: HeaderProps) {
               <div className="relative">
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors"
+                  className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   <User className="h-6 w-6" />
                   <span className="hidden md:block">
@@ -98,17 +106,19 @@ export default function Header({ className }: HeaderProps) {
 
                 {/* User Dropdown Menu */}
                 {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border">
-                    <div className="px-4 py-2 text-sm text-gray-700 border-b">
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border dark:border-gray-700">
+                    <div className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 border-b dark:border-gray-700">
                       <p className="font-medium">
                         {user.user_metadata?.fullName || 'Usuário'}
                       </p>
-                      <p className="text-gray-500 truncate">{user.email}</p>
+                      <p className="text-gray-500 dark:text-gray-400 truncate">
+                        {user.email}
+                      </p>
                     </div>
 
                     <Link
                       href="/dashboard"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
                       <Settings className="h-4 w-4 mr-2" />
@@ -117,7 +127,7 @@ export default function Header({ className }: HeaderProps) {
 
                     <Link
                       href="/dashboard/profile"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
                       <User className="h-4 w-4 mr-2" />
@@ -126,10 +136,10 @@ export default function Header({ className }: HeaderProps) {
 
                     {/* Seller Only Links */}
                     <SellerOnly>
-                      <div className="border-t border-gray-100">
+                      <div className="border-t border-gray-100 dark:border-gray-700">
                         <Link
                           href="/seller/dashboard"
-                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                           onClick={() => setIsUserMenuOpen(false)}
                         >
                           <Store className="h-4 w-4 mr-2" />
@@ -140,10 +150,10 @@ export default function Header({ className }: HeaderProps) {
 
                     {/* Admin Only Links */}
                     <AdminOnly>
-                      <div className="border-t border-gray-100">
+                      <div className="border-t border-gray-100 dark:border-gray-700">
                         <Link
                           href="/admin"
-                          className="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium"
+                          className="flex items-center px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900 font-medium"
                           onClick={() => setIsUserMenuOpen(false)}
                         >
                           <Shield className="h-4 w-4 mr-2" />
@@ -152,10 +162,10 @@ export default function Header({ className }: HeaderProps) {
                       </div>
                     </AdminOnly>
 
-                    <div className="border-t border-gray-100">
+                    <div className="border-t border-gray-100 dark:border-gray-700">
                       <button
                         onClick={handleSignOut}
-                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       >
                         <LogOut className="h-4 w-4 mr-2" />
                         Sair
@@ -184,7 +194,7 @@ export default function Header({ className }: HeaderProps) {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"
+              className="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             >
               {isMenuOpen ? (
                 <X className="h-6 w-6" />

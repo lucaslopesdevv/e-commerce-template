@@ -93,7 +93,8 @@ async function getProduct(id: string) {
 export async function generateMetadata({
   params,
 }: ProductPageProps): Promise<Metadata> {
-  const product = await getProduct(params.id)
+  const resolvedParams = await params
+  const product = await getProduct(resolvedParams.id)
 
   if (!product) {
     return {
@@ -121,7 +122,8 @@ export async function generateMetadata({
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const product = await getProduct(params.id)
+  const resolvedParams = await params
+  const product = await getProduct(resolvedParams.id)
 
   if (!product) {
     notFound()
@@ -140,27 +142,35 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         {/* Breadcrumb */}
-        <div className="bg-white border-b">
+        <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <nav className="flex text-sm text-gray-600">
-              <Link href="/" className="hover:text-gray-900">
+            <nav className="flex text-sm text-gray-600 dark:text-gray-300">
+              <Link
+                href="/"
+                className="hover:text-gray-900 dark:hover:text-gray-100"
+              >
                 Início
               </Link>
               <span className="mx-2">/</span>
-              <Link href="/products" className="hover:text-gray-900">
+              <Link
+                href="/products"
+                className="hover:text-gray-900 dark:hover:text-gray-100"
+              >
                 Produtos
               </Link>
               <span className="mx-2">/</span>
               <Link
                 href={`/categories/${product.category.slug}`}
-                className="hover:text-gray-900"
+                className="hover:text-gray-900 dark:hover:text-gray-100"
               >
                 {product.category.name}
               </Link>
               <span className="mx-2">/</span>
-              <span className="text-gray-900 truncate">{product.title}</span>
+              <span className="text-gray-900 dark:text-gray-100 truncate">
+                {product.title}
+              </span>
             </nav>
           </div>
         </div>
@@ -196,7 +206,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
               {/* Title and Rating */}
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-3">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-3">
                   {product.title}
                 </h1>
 
@@ -212,7 +222,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         }`}
                       />
                     ))}
-                    <span className="text-sm text-gray-600 ml-2">
+                    <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
                       {product.rating} ({product.review_count} avaliações)
                     </span>
                   </div>
@@ -233,7 +243,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {/* Price */}
               <div className="space-y-2">
                 <div className="flex items-center space-x-3">
-                  <span className="text-3xl font-bold text-gray-900">
+                  <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">
                     R$ {product.price.toFixed(2).replace('.', ',')}
                   </span>
                   {isOnSale && (
@@ -249,7 +259,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   )}
                 </div>
 
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-gray-600 dark:text-gray-400">
                   <span>
                     ou 10x de R${' '}
                     {(product.price / 10).toFixed(2).replace('.', ',')} sem
@@ -277,7 +287,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {/* Quantity and Add to Cart */}
               <div className="space-y-4">
                 <div className="flex items-center space-x-4">
-                  <label className="text-sm font-medium text-gray-700">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Quantidade:
                   </label>
                   <div className="flex items-center border border-gray-300 rounded-md">
