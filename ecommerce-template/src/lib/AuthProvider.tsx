@@ -16,6 +16,8 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: any }>
   signOut: () => Promise<void>
   resetPassword: (email: string) => Promise<{ error: any }>
+  updatePassword: (newPassword: string) => Promise<{ error: any }>
+  resendVerification: (email: string) => Promise<{ error: any }>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -51,10 +53,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(session?.user || null)
         setLoading(false)
 
-        // Handle auth events
-        if (event === 'SIGNED_IN') {
-          router.push('/dashboard')
-        } else if (event === 'SIGNED_OUT') {
+        // Handle auth events - only redirect on sign out, not on sign in
+        // This allows users to freely navigate the site while authenticated
+        if (event === 'SIGNED_OUT') {
           router.push('/')
         }
       }
@@ -95,6 +96,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { error }
       }
 
+      // Only redirect to dashboard after successful manual login
+      router.push('/dashboard')
       return { error: null }
     } catch (error) {
       return { error }
@@ -125,6 +128,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const updatePassword = async (newPassword: string) => {
+    try {
+      const { error } = await auth.updatePassword(newPassword)
+      return { error }
+    } catch (error) {
+      return { error }
+    }
+  }
+
+  const resendVerification = async (email: string) => {
+    try {
+      const { error } = await auth.resendVerification(email)
+      return { error }
+    } catch (error) {
+      return { error }
+    }
+  }
+
   const value = {
     user,
     session,
@@ -133,6 +154,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signIn,
     signOut,
     resetPassword,
+    updatePassword,
+    resendVerification,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

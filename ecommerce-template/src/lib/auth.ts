@@ -16,6 +16,7 @@ export const auth = {
       password,
       options: {
         data: metadata,
+        emailRedirectTo: `${window.location.origin}/auth/verify-email`,
       },
     })
     return { data, error }
@@ -51,7 +52,7 @@ export const auth = {
   // Reset password
   resetPassword: async (email: string) => {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/reset-password`,
+      redirectTo: `${window.location.origin}/auth/update-password`,
     })
     return { data, error }
   },
@@ -62,6 +63,41 @@ export const auth = {
       password: newPassword,
     })
     return { data, error }
+  },
+
+  // Set session with tokens (for password reset flow)
+  setSession: async (accessToken: string, refreshToken: string) => {
+    const { data, error } = await supabase.auth.setSession({
+      access_token: accessToken,
+      refresh_token: refreshToken,
+    })
+    return { data, error }
+  },
+
+  // Resend verification email
+  resendVerification: async (email: string) => {
+    const { data, error } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/verify-email`,
+      },
+    })
+    return { data, error }
+  },
+
+  // Verify OTP token
+  verifyOtp: async (token: string, type: 'signup' | 'recovery' = 'signup') => {
+    const { data, error } = await supabase.auth.verifyOtp({
+      token_hash: token,
+      type,
+    })
+    return { data, error }
+  },
+
+  // Check if user email is verified
+  isEmailVerified: (user: AuthUser | null): boolean => {
+    return user?.email_confirmed_at !== null
   },
 
   // Listen to auth state changes

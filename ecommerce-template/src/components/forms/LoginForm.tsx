@@ -1,15 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import Link from 'next/link'
-import { Eye, EyeOff } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
+import { Eye, EyeOff, Mail, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuth } from '@/lib/AuthProvider'
+import { auth } from '@/lib/auth'
 
 const loginSchema = z.object({
   email: z
@@ -32,6 +34,17 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   const { signIn } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const [authError, setAuthError] = useState<string | null>(null)
+  const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null)
+  const [resendLoading, setResendLoading] = useState(false)
+  const [resendMessage, setResendMessage] = useState<string | null>(null)
+  const [verificationMessage, setVerificationMessage] = useState<string | null>(
+    null
+  )
+  const [passwordUpdateMessage, setPasswordUpdateMessage] = useState<
+    string | null
+  >(null)
+
+  const searchParams = useSearchParams()
 
   const {
     register,
@@ -41,9 +54,57 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     resolver: zodResolver(loginSchema),
   })
 
+  // Check for success messages
+  useEffect(() => {
+    const verified = searchParams.get('verified')
+    const passwordUpdated = searchParams.get('password_updated')
+
+    if (verified === 'true') {
+      setVerificationMessage(
+        'Email verificado com sucesso! Agora você pode fazer login.'
+      )
+    }
+
+    if (passwordUpdated === 'true') {
+      setPasswordUpdateMessage(
+        'Senha atualizada com sucesso! Agora você pode fazer login com sua nova senha.'
+      )
+    }
+  }, [searchParams])
+
+  const handleResendVerification = async () => {
+    if (!unverifiedEmail) return
+
+    setResendLoading(true)
+    setResendMessage(null)
+
+    try {
+      const { error } = await auth.resendVerification(unverifiedEmail)
+
+      if (error) {
+        setAuthError('Erro ao reenviar email de verificação. Tente novamente.')
+      } else {
+        setResendMessage(
+          'Email de verificação enviado! Verifique sua caixa de entrada.'
+        )
+        setAuthError(null)
+      }
+    } catch (error) {
+      console.error('Resend verification error:', error)
+      setAuthError('Erro inesperado. Tente novamente.')
+    } finally {
+      setResendLoading(false)
+    }
+  }
+
   const onSubmit = async (data: LoginFormData) => {
     try {
       setAuthError(null)
+      setUnverifiedEmail(null)
+      setResendMessage(null)
+      setVerificationMessage(null)
+      setPasswordUpdateMessage(null)
+
       const { error } = await signIn(data.email, data.password)
 
       if (error) {
@@ -52,8 +113,9 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           setAuthError('Email ou senha incorretos')
         } else if (error.message.includes('Email not confirmed')) {
           setAuthError(
-            'Email ainda não confirmado. Verifique sua caixa de entrada.'
+            'Email ainda não confirmado. Clique no botão abaixo para reenviar o email de verificação.'
           )
+          setUnverifiedEmail(data.email)
         } else if (error.message.includes('Too many requests')) {
           setAuthError(
             'Muitas tentativas de login. Tente novamente em alguns minutos.'
@@ -82,9 +144,27 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {verificationMessage && (
+          <div className="p-3 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md">
+            {verificationMessage}
+          </div>
+        )}
+
+        {passwordUpdateMessage && (
+          <div className="p-3 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md">
+            {passwordUpdateMessage}
+          </div>
+        )}
+
         {authError && (
           <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
             {authError}
+          </div>
+        )}
+
+        {resendMessage && (
+          <div className="p-3 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md">
+            {resendMessage}
           </div>
         )}
 
@@ -125,33 +205,41 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           )}
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <input
-              id="remember-me"
-              name="remember-me"
-              type="checkbox"
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-            />
-            <label
-              htmlFor="remember-me"
-              className="ml-2 block text-sm text-gray-700"
-            >
-              Lembrar de mim
-            </label>
-          </div>
-
-          <Link
-            href="/auth/reset-password"
-            className="text-sm text-blue-600 hover:text-blue-500"
+        {/* Resend verification button */}
+        {unverifiedEmail && (
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            onClick={handleResendVerification}
+            disabled={resendLoading}
           >
-            Esqueceu a senha?
-          </Link>
-        </div>
+            {resendLoading ? (
+              <>
+                <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                Reenviando...
+              </>
+            ) : (
+              <>
+                <Mail className="w-4 h-4 mr-2" />
+                Reenviar Email de Verificação
+              </>
+            )}
+          </Button>
+        )}
 
         <Button type="submit" className="w-full" disabled={isSubmitting}>
           {isSubmitting ? 'Entrando...' : 'Entrar'}
         </Button>
+
+        <div className="text-center">
+          <Link
+            href="/auth/reset-password"
+            className="text-sm text-blue-600 hover:text-blue-500"
+          >
+            Esqueceu sua senha?
+          </Link>
+        </div>
       </form>
 
       <div className="text-center">

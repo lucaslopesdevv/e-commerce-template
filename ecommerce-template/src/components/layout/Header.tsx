@@ -7,13 +7,15 @@ import {
   X,
   ShoppingCart,
   User,
-  Search,
   Heart,
   LogOut,
   Settings,
+  Shield,
+  Store,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/lib/AuthProvider'
+import { AdminOnly, SellerOnly } from '@/components/auth/ProtectedComponent'
 
 interface HeaderProps {
   className?: string
@@ -32,6 +34,7 @@ export default function Header({ className }: HeaderProps) {
 
   const navigation = [
     { name: 'Início', href: '/' },
+    { name: 'Produtos', href: '/products' },
     { name: 'Categorias', href: '/categories' },
     { name: 'Como Funciona', href: '/how-it-works' },
     { name: 'Contato', href: '/contact' },
@@ -42,7 +45,7 @@ export default function Header({ className }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 mr-8">
             <Link href="/" className="text-2xl font-bold text-blue-600">
               ShopEasy
             </Link>
@@ -60,18 +63,6 @@ export default function Header({ className }: HeaderProps) {
               </Link>
             ))}
           </nav>
-
-          {/* Search Bar */}
-          <div className="hidden md:flex flex-1 max-w-md mx-8">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <input
-                type="text"
-                placeholder="Buscar produtos..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              />
-            </div>
-          </div>
 
           {/* Action Buttons */}
           <div className="flex items-center space-x-4">
@@ -125,7 +116,7 @@ export default function Header({ className }: HeaderProps) {
                     </Link>
 
                     <Link
-                      href="/profile"
+                      href="/dashboard/profile"
                       className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
@@ -133,13 +124,43 @@ export default function Header({ className }: HeaderProps) {
                       Perfil
                     </Link>
 
-                    <button
-                      onClick={handleSignOut}
-                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Sair
-                    </button>
+                    {/* Seller Only Links */}
+                    <SellerOnly>
+                      <div className="border-t border-gray-100">
+                        <Link
+                          href="/seller/dashboard"
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsUserMenuOpen(false)}
+                        >
+                          <Store className="h-4 w-4 mr-2" />
+                          Painel do Vendedor
+                        </Link>
+                      </div>
+                    </SellerOnly>
+
+                    {/* Admin Only Links */}
+                    <AdminOnly>
+                      <div className="border-t border-gray-100">
+                        <Link
+                          href="/admin"
+                          className="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-medium"
+                          onClick={() => setIsUserMenuOpen(false)}
+                        >
+                          <Shield className="h-4 w-4 mr-2" />
+                          Painel Administrativo
+                        </Link>
+                      </div>
+                    </AdminOnly>
+
+                    <div className="border-t border-gray-100">
+                      <button
+                        onClick={handleSignOut}
+                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Sair
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -178,18 +199,6 @@ export default function Header({ className }: HeaderProps) {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t">
             <div className="flex flex-col space-y-2">
-              {/* Mobile Search */}
-              <div className="px-4 py-2">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                  <input
-                    type="text"
-                    placeholder="Buscar produtos..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                  />
-                </div>
-              </div>
-
               {/* Mobile Navigation Links */}
               {navigation.map(item => (
                 <Link

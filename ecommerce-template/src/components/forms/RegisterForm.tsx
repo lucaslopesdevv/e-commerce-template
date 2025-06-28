@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import Link from 'next/link'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, Mail, CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -78,6 +78,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [authError, setAuthError] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [registeredEmail, setRegisteredEmail] = useState<string | null>(null)
 
   const {
     register,
@@ -119,8 +120,9 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
       }
 
       // Success
+      setRegisteredEmail(data.email)
       setSuccessMessage(
-        'Conta criada com sucesso! Verifique seu email para confirmar sua conta.'
+        'Conta criada com sucesso! Enviamos um email de verificação para você.'
       )
       onSuccess?.()
     } catch (error) {
@@ -129,16 +131,76 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
     }
   }
 
-  const formatPhone = (value: string) => {
+  const formatPhoneNumber = (value: string) => {
     // Remove all non-digits
-    const digits = value.replace(/\D/g, '')
+    const cleaned = value.replace(/\D/g, '')
 
-    // Format as (XX) XXXXX-XXXX or (XX) XXXX-XXXX
-    if (digits.length <= 10) {
-      return digits.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
+    // Apply formatting
+    if (cleaned.length <= 2) {
+      return cleaned
+    } else if (cleaned.length <= 6) {
+      return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2)}`
+    } else if (cleaned.length <= 10) {
+      return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 6)}-${cleaned.slice(6)}`
     } else {
-      return digits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
+      return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7, 11)}`
     }
+  }
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhoneNumber(e.target.value)
+    setValue('phone', formatted)
+  }
+
+  // If registration was successful, show success state
+  if (successMessage && registeredEmail) {
+    return (
+      <div className="w-full max-w-md space-y-6">
+        <div className="text-center space-y-4">
+          <CheckCircle className="w-16 h-16 text-green-500 mx-auto" />
+
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Conta Criada!</h1>
+            <p className="mt-2 text-sm text-green-600">{successMessage}</p>
+          </div>
+        </div>
+
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div className="flex items-start space-x-3">
+            <Mail className="w-5 h-5 text-blue-600 mt-0.5" />
+            <div className="text-sm">
+              <p className="text-blue-800 font-medium">Verifique seu email</p>
+              <p className="text-blue-700 mt-1">
+                Enviamos um link de verificação para{' '}
+                <strong>{registeredEmail}</strong>. Clique no link para ativar
+                sua conta.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <p className="text-sm text-gray-600 text-center">
+            Não recebeu o email?
+          </p>
+
+          <Link href="/auth/verify-email">
+            <Button variant="outline" className="w-full">
+              Reenviar Email de Verificação
+            </Button>
+          </Link>
+
+          <div className="text-center">
+            <Link
+              href="/auth/login"
+              className="text-sm text-blue-600 hover:text-blue-500 font-medium"
+            >
+              ← Voltar para Login
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -157,18 +219,11 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
           </div>
         )}
 
-        {successMessage && (
-          <div className="p-3 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md">
-            {successMessage}
-          </div>
-        )}
-
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="firstName">Nome</Label>
             <Input
               id="firstName"
-              type="text"
               placeholder="João"
               {...register('firstName')}
               className={errors.firstName ? 'border-red-500' : ''}
@@ -182,7 +237,6 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
             <Label htmlFor="lastName">Sobrenome</Label>
             <Input
               id="lastName"
-              type="text"
               placeholder="Silva"
               {...register('lastName')}
               className={errors.lastName ? 'border-red-500' : ''}
@@ -211,13 +265,10 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
           <Label htmlFor="phone">Telefone</Label>
           <Input
             id="phone"
-            type="text"
+            type="tel"
             placeholder="(11) 99999-9999"
             {...register('phone')}
-            onChange={e => {
-              const formatted = formatPhone(e.target.value)
-              setValue('phone', formatted)
-            }}
+            onChange={handlePhoneChange}
             className={errors.phone ? 'border-red-500' : ''}
           />
           {errors.phone && (
@@ -237,10 +288,20 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="customer">
-                Cliente - Quero comprar produtos
+                <div className="flex flex-col items-start">
+                  <span className="font-medium">Cliente</span>
+                  <span className="text-sm text-gray-500">
+                    Comprar produtos na plataforma
+                  </span>
+                </div>
               </SelectItem>
               <SelectItem value="seller">
-                Vendedor - Quero criar uma loja e vender produtos
+                <div className="flex flex-col items-start">
+                  <span className="font-medium">Vendedor</span>
+                  <span className="text-sm text-gray-500">
+                    Vender produtos na plataforma
+                  </span>
+                </div>
               </SelectItem>
             </SelectContent>
           </Select>
@@ -300,21 +361,20 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         </div>
 
         <div className="space-y-3">
-          <div className="flex items-start">
-            <div className="flex items-center h-5">
-              <input
-                id="acceptTerms"
-                type="checkbox"
-                {...register('acceptTerms')}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              />
-            </div>
-            <div className="ml-3 text-sm">
+          <div className="flex items-start space-x-3">
+            <input
+              id="acceptTerms"
+              type="checkbox"
+              {...register('acceptTerms')}
+              className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <div className="text-sm">
               <label htmlFor="acceptTerms" className="text-gray-700">
                 Eu aceito os{' '}
                 <Link
                   href="/termos"
                   className="text-blue-600 hover:text-blue-500"
+                  target="_blank"
                 >
                   Termos de Uso
                 </Link>
@@ -327,21 +387,20 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
             </div>
           </div>
 
-          <div className="flex items-start">
-            <div className="flex items-center h-5">
-              <input
-                id="acceptPrivacy"
-                type="checkbox"
-                {...register('acceptPrivacy')}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              />
-            </div>
-            <div className="ml-3 text-sm">
+          <div className="flex items-start space-x-3">
+            <input
+              id="acceptPrivacy"
+              type="checkbox"
+              {...register('acceptPrivacy')}
+              className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <div className="text-sm">
               <label htmlFor="acceptPrivacy" className="text-gray-700">
                 Eu aceito a{' '}
                 <Link
                   href="/privacidade"
                   className="text-blue-600 hover:text-blue-500"
+                  target="_blank"
                 >
                   Política de Privacidade
                 </Link>
@@ -367,7 +426,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
             href="/auth/login"
             className="text-blue-600 hover:text-blue-500 font-medium"
           >
-            Entrar
+            Fazer login
           </Link>
         </p>
       </div>
